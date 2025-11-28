@@ -6,4 +6,5 @@
 
 .pyenv/
 __pycache__/
+dist/
 

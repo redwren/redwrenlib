@@ -1,3 +1,24 @@
+[build-system]
+requires =  ["hatchling", "scikit-learn"]
+build-backend = "hatchling.build"
+
 [project]
 name = "redwrenlib"
 version = "0.0.1"
+authors = [
+    { name="Utkarsh Ranjan", email="utkarsh@cyberfear.com" }
+]
+
+description = "lib for redwren development"
+readme = "README.md"
+requires-python = ">=3.9"
+classifiers = [
+    "Programming Language :: Python :: 3",
+    "License :: OSI Approved :: Apache Software License",
+    "Operating System :: OS Independent"
+]
+
+[project.urls]
+Homepage = "https://karsh.me/#/redwren"
+Issues = "https://github.com/redwren/redwrenlib"
+
