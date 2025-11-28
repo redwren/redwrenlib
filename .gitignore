@@ -1,0 +1,9 @@
+
+# .gitignore
+
+**/.DS_Store
+**/todo
+
+.pyenv/
+__pycache__/
+
