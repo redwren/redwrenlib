@@ -1,5 +1,5 @@
 [build-system]
-requires =  ["hatchling", "scikit-learn"]
+requires =  ["hatchling", "scikit-learn", "numpy", "h5py", "colorama"]
 build-backend = "hatchling.build"
 
 [project]

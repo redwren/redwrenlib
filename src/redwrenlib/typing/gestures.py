@@ -12,6 +12,6 @@ from dataclasses import dataclass
 @dataclass(frozen=True)
 class ModelParameters:
     random_state: int
-    n_component: int
+    n_components: int
     threshold: float
 
