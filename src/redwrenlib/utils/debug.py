@@ -35,7 +35,7 @@ def alert(prompt: str = "") -> None:
             cur = os.path.dirname(start_path)
 
             while True:
-                candidate = os.path.join(cur, "__init__.py")
+                candidate = os.path.join(cur, "redwrenlib")
                 if os.path.exists(candidate):
                     return cur
 
@@ -56,7 +56,7 @@ def alert(prompt: str = "") -> None:
             except Exception:
                 rel_path = caller_file
 
-        caller_info: str = Fore.YELLOW + f"./{rel_path}:{caller_line}" + Fore.RESET
+        caller_info: str = Fore.YELLOW + f"{rel_path}:{caller_line}" + Fore.RESET
 
     else:
         caller_info: str = Fore.YELLOW + "<unknown>" + Fore.RESET

@@ -74,6 +74,7 @@ class GestureFile:
             with h5py.File(self.__filename, 'r') as f:
                 file_version = f['version'][()].decode('utf-8')
                 print(f"file version = {file_version}")
+
                 if file_version in version_readers:
                     model_parameters, self.__models = version_readers[file_version](f)
                     self.__threshold = model_parameters.threshold
