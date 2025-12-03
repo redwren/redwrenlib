@@ -180,6 +180,12 @@ class GestureFile:
             )
 
 
+    # Get names of all sensors in the record
+    def get_keys(self) -> List[str]:
+        """Return a list of all sensor labels read from the gesture file, or set with create()"""
+        return list(self._models.keys())
+
+
     # Set parameters, either override individual, or override all with ModelParameters arg
     def set_parameters(self,
             parameters: Optional[ModelParameters]=None,
