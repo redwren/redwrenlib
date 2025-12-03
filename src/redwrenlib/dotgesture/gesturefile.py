@@ -24,13 +24,13 @@ class GestureFile:
     # Initialise the instance with default values
     def __init__(self, filename: str):
         """Initialise the GestureFile instance with the given filename."""
-        self.__filename: str = filename
-        self.__models: data_dict_t = {}
+        self._filename: str = filename
+        self._models: data_dict_t = {}
 
         # Gaussian Mixture Model parameters
-        self.__n_components: int = 42
-        self.__random_state: int = 2
-        self.__threshold: float = -10.5
+        self._n_components: int = 42
+        self._random_state: int = 2
+        self._threshold: float = -10.5
 
 
     # Create mew gesture file
@@ -41,11 +41,11 @@ class GestureFile:
             bool: True if the file was created successfully, False if there was an error.
         """
         try:
-            with h5py.File(self.__filename, 'w') as f:
+            with h5py.File(self._filename, 'w') as f:
                 f.create_dataset('version', data=GESTURE_VERSION)
-                f.create_dataset('n_components', data=self.__n_components)
-                f.create_dataset('random_state', data=self.__random_state)
-                f.create_dataset('threshold', data=self.__threshold)
+                f.create_dataset('n_components', data=self._n_components)
+                f.create_dataset('random_state', data=self._random_state)
+                f.create_dataset('threshold', data=self._threshold)
 
         except Exception as e:
             alert(f"Unable to create file: {e}")
@@ -62,7 +62,7 @@ class GestureFile:
             bool: True if the models were appended successfully, False if there was an error.
         """
         try:
-            with h5py.File(self.__filename, 'a') as f:
+            with h5py.File(self._filename, 'a') as f:
                 gmm_group = f.create_group(label) # create a new group for each sensor
 
                 for i, model in enumerate(models):
@@ -88,15 +88,15 @@ class GestureFile:
             bool: True if the file was read successfully, False if there was an error.
         """
         try:
-            with h5py.File(self.__filename, 'r') as f:
+            with h5py.File(self._filename, 'r') as f:
                 file_version = f['version'][()].decode('utf-8')
                 print(f"file version = {file_version}")
 
                 if file_version in version_readers:
-                    model_parameters, self.__models = version_readers[file_version](f)
-                    self.__threshold = model_parameters.threshold
-                    self.__random_state = model_parameters.random_state
-                    self.__n_components = model_parameters.n_components
+                    model_parameters, self._models = version_readers[file_version](f)
+                    self._threshold = model_parameters.threshold
+                    self._random_state = model_parameters.random_state
+                    self._n_components = model_parameters.n_components
 
                 else:
                     raise ValueError(f"Unsupported file version: {file_version}")
@@ -110,10 +110,8 @@ class GestureFile:
 
     # Check if the readings trigger the gesture
     def is_gesture(self,
-        timestamps: List[float] = [],
-        readings: Dict[str, List[float]] = {}
+        timestamps: List[float], readings: Dict[str, List[float]]
     ) -> Tuple[bool, Dict[str, GestureMatch]]:
-        """
         """Check whether the provided readings trigger any gestures based on the loaded models.
 
         Args:
@@ -131,7 +129,7 @@ class GestureFile:
         """
         Result: Dict[str, GestureMatch] = {}
 
-        if self.__models == {}:
+        if self._models == {}:
             # print line where .is_gesture() was called
             alert("Models aren't generated. Read a file.", backtrack=2)
             return False, Result
@@ -146,11 +144,11 @@ class GestureFile:
 
             # Compute average log‑likelihood for each model
             # .score = mean log‑likelihood
-            scores = [float(model.score(values2d)) for model in self.__models[sensor]]
+            scores = [float(model.score(values2d)) for model in self._models[sensor]]
 
             Result[sensor] = GestureMatch(
                 value = max(scores), # would help with finding more appropriate threshold
-                status = max(scores) > self.__threshold # best‑matching orientation
+                status = max(scores) > self._threshold # best‑matching orientation
             )
 
         return all(r.status for r in Result.values()), Result
@@ -165,7 +163,7 @@ class GestureFile:
         Returns:
             data_dict_t: The models associated with the gesture file.
         """
-        return self.__models
+        return self._models
 
 
     # Get saved parameters in ModelParameters type
@@ -176,9 +174,9 @@ class GestureFile:
             ModelParameters: The parameters associated with the gesture file.
         """
         return ModelParameters(
-                random_state=self.__random_state,
-                threshold=self.__threshold,
-                n_components=self.__n_components
+                random_state=self._random_state,
+                threshold=self._threshold,
+                n_components=self._n_components
             )
 
 
@@ -198,20 +196,20 @@ class GestureFile:
             threshold: Threshold value to set.
         """
         if parameters is not None:
-            self.__threshold = parameters.threshold
+            self._threshold = parameters.threshold
             assert parameters.n_components > 0, "n_components should be above 0"
-            self.__n_components = parameters.n_components
+            self._n_components = parameters.n_components
             assert parameters.random_state > 1, "random_state should be above 1"
-            self.__random_state = parameters.random_state
+            self._random_state = parameters.random_state
 
         if n_components is not None:
             assert n_components > 0, "n_components should be above 0"
-            self.__n_components = n_components
+            self._n_components = n_components
 
         if random_state is not None:
             assert random_state > 1, "random_state should be above 1"
-            self.__random_state = random_state
+            self._random_state = random_state
 
         if threshold is not None:
-            self.__threshold = threshold
+            self._threshold = threshold
 
