@@ -6,7 +6,7 @@
 import os
 import sys
 import inspect
-from typing import Optional
+from typing import Any, Optional
 
 from colorama import init, Fore
 
@@ -20,7 +20,7 @@ init()
 #- Public Methods ----------------------------------------------------------------------------------
 
 # Print where this procedure was called, with optional message.
-def alert(prompt: str = "", backtrack: int = 1, level: str = "alert") -> None:
+def alert(prompt: Any = "", backtrack: int = 1, level: str = "alert") -> None:
     # Immediate caller frame.
     # 0 is this function, 1 is what called it.
     # backtrack = 2, is the code block that called the function that called alert()
