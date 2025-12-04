@@ -9,7 +9,7 @@ from .v2 import read_file as v2
 
 #- Export ------------------------------------------------------------------------------------------
 
-GESTURE_VERSION: str = "2"
+GESTURE_VERSION: int = 2
 
 version_readers = {
     "0.0.1": v1,
