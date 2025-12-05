@@ -218,6 +218,7 @@ class GestureFile:
 
     # Set parameters, either override individual, or override all with ModelParameters arg
     def set_parameters(self,
+            label: str,
             n_components: Optional[int] = None,
             random_state: Optional[int] = None,
             threshold:Optional[float] = None
@@ -231,12 +232,12 @@ class GestureFile:
         """
         if n_components is not None:
             assert n_components > 0, "n_components should be above 0"
-            self._n_components = n_components
+            self._gesture_data[label].n_components = n_components
 
         if random_state is not None:
             assert random_state > 1, "random_state should be above 1"
-            self._random_state = random_state
+            self._gesture_data[label].random_state = random_state
 
         if threshold is not None:
-            self._threshold = threshold
+            self._gesture_data[label].threshold = threshold
 
