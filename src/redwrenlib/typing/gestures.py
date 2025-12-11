@@ -8,7 +8,7 @@ from dataclasses import dataclass
 
 from sklearn.mixture import GaussianMixture
 
-from utils import defaults
+from ..utils import defaults
 
 #- Data Classes ------------------------------------------------------------------------------------
 
